@@ -1,0 +1,60 @@
+.container {
+  position: relative;
+  height: 100%;
+  background-color: #1a1827;
+  .kirito{
+    position: absolute;
+    margin: 0 auto;
+    // z-index: -1;
+    height: 100%;
+  }
+  overflow: hidden;
+}
+
+h4{
+  color: white;
+}
+.main {
+  height: 80%;
+  position: relative;
+  background-color: #15141ba4;
+  backdrop-filter: blur(10px);
+  box-sizing: border-box;
+  border: 5px solid #4a4a5c;
+}
+.dp {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 0.2px solid grey;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.db_box {
+  background-color: #00000079;
+  color: white;
+  width: 100%;
+  padding-block: 5px;
+}
+.image-upload-container{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: rgba(255, 255, 255, 0.216);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  .img-dialog{
+    padding: 15px 25px;
+    background-color: white;
+    border: 1px solid grey;
+  }
+}

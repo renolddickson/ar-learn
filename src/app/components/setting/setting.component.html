@@ -1,0 +1,66 @@
+<div class="container" fxLayoutAlign="center center">
+    <div class="main" fxFlex="500px" fxFlex.lt-md="90%" fxLayoutAlign="center center">
+      <button style="color: white;position: absolute;left: 10px; top: 10px;" mat-icon-button routerLink="/home"><mat-icon>arrow_back</mat-icon></button>
+  <div class="user-container"fxLayout="column" fxLayoutGap="12px" style="width: 90%;">
+      <div class="store-settings" fxLayout="column" fxLayoutGap="12px" [formGroup]="settingForm">
+          <div fxLayout="column" fxLayoutAlign="center center" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+            <div class="dp" fxLayoutGap="10px" fxLayoutAlign="end center" fxLayout="column" (click)="image.click()" 
+              [style.backgroundImage]="'url('+(settingForm.get('picture')?.value?settingForm.get('picture')?.value:'../../../assets/user.png')+')'">
+              <input #image id="imageInput" type="file" accept="image/jpeg, image/png,image/jpg" style="display: none;"
+              (change)="onFileChange($event)">
+              <div class="db_box" fxLayoutAlign="center center">
+                <mat-icon color="primary">camera_alt</mat-icon>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+              <h4>Upload logo</h4>
+              <mat-icon color="primary">cloud_upload</mat-icon>
+            </div>
+          </div>
+          <div [ngStyle]="{'width':'100%'}" fxLayout="column" fxLayoutGap="10px">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" placeholder="Email">
+              <mat-error *ngIf="settingForm.get('email')?.hasError('required')">This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+          <div [ngStyle]="{'width':'100%'}" fxLayout="column" fxLayoutGap="10px">
+            <mat-form-field appearance="outline">
+              <mat-label>User Name</mat-label>
+              <input matInput formControlName="username" placeholder="Username">
+              <mat-error *ngIf="settingForm.get('username')?.hasError('required')">This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+        <div class="store-settings" fxLayout="row" fxLayoutGap="12px">
+         <span>Points :</span><span>{{settingForm.get('points')?.value}}</span>
+        </div>
+        <div fxLayoutAlign="end center">
+          <button mat-raised-button style="background-color: #fddc2a;" (click)="onSubmit()">
+            <span *ngIf="!isLoading; else spinner">SAVE</span>
+          </button>
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+<div *ngIf="imgChangeEvt && imgChangeEvt?.target?.files[0]" class="image-upload-container" fxLayout="column">
+  <div class="img-dialog"  [ngStyle]="{'width':'450px'}" [ngStyle.lt-sm]="{'width':'90%'}" >
+    <image-cropper style="max-height: 550px;"
+    [imageChangedEvent]="imgChangeEvt" 
+    [maintainAspectRatio]="true" 
+    [aspectRatio]="4 / 4"
+    [resizeToWidth]="256" 
+    format="png" 
+    (imageCropped)="cropImg($event)" 
+    >
+  </image-cropper>
+  <div fxLayoutAlign="end " style="width: 100%;" fxLayoutGap="10px">
+    <button mat-stroked-button (click)="imgChangeEvt=null">CANCEL</button>
+    <button mat-raised-button style="background-color: #fddc2a;" (click)="onSaveImage()">
+      <span *ngIf="!imageLoading; else spinner">UPLOAD</span>
+    </button>
+  </div>
+</div>
+</div>
+<ng-template #spinner><i class="fa fa-spinner fa-spin"></i></ng-template>

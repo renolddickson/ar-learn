@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Ojuju:wght@200..800&family=Press+Start+2P&family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+::-webkit-scrollbar{
+  display: none;
+}
+.storename-blocker {
+  min-height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.216);
+  backdrop-filter: blur(10px);
+
+  .dialog-box {
+    height: 200px;
+    padding: 15px 25px;
+    border-radius: 20px;
+    background-color: #15141b;
+    border: 1px solid grey;
+  }
+}
+.account{
+  display: block;
+  transition: transform 0.5s, opacity 0.5s;
+  margin-block: 10px!important;
+}
+.container {
+  position: relative;
+  height: 100%;
+  background-color: #1a1827;
+  .kirito{
+    position: absolute;
+    margin: 0 auto;
+    // z-index: -1;
+    height: 100%;
+  }
+  overflow: hidden;
+}
+
+.main {
+  position: relative;
+  background-color: #15141ba4;
+  backdrop-filter: blur(10px);
+  box-sizing: border-box;
+  border: 5px solid #4a4a5c;
+padding-block: 10px;
+  .username {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+  }
+}
+.topic-btn{
+  height: 100px;
+  width: 100px;
+  border-radius: 20px;
+  border: 1px solid white;
+  cursor: pointer;
+}
+.topics{
+  margin-top: 75px;
+}
