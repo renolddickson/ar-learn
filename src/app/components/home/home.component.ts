@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { FormControl } from '@angular/forms';
 
@@ -8,11 +8,14 @@ import { FormControl } from '@angular/forms';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  topic!:any;
+  topic:any;
   userSettings: any;
   uid:any;
   isLoading=false;
   points!:number;
+  @ViewChild('earth') earth!:ElementRef;
+  @ViewChild('mech') mech!:ElementRef;
+  @ViewChild('health') health!:ElementRef;
   constructor(private apiService: ApiService,) { }
   ngOnInit(): void {
     const currentUser = this.apiService.getToken();
@@ -22,6 +25,9 @@ export class HomeComponent {
         this.userSettings = res;
       })
     }
+  }
+  getTemplate(){
+    return this[this.topic as keyof HomeComponent];
   }
   saveStorename() {
       this.isLoading=true;

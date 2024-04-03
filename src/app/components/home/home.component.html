@@ -1,21 +1,25 @@
 <div class="container" fxLayoutAlign="center center">
-  <div class="main" [ngStyle]="{'height':'90%'}" [ngStyle.lt-md]="{'height':'100%'}" fxFlex="500px" fxFlex.lt-md="100%" fxLayoutAlign="center center">
+  <div class="main" [ngStyle]="{'height':'90%'}" [ngStyle.lt-md]="{'height':'100%'}" fxFlex="500px" fxFlex.lt-md="100%"
+    fxLayoutAlign="center center">
     <div class="score-board" style="height: 100%;width: 80%;overflow-y: scroll;" fxLayout="column" fxLayoutGap="10px">
       <div style="width: 100%;" fxLayoutAlign="space-between center">
         <h3 style="color: white;">Start Quiz</h3>
-        <button style="color: white;"  mat-icon-button [mat-menu-trigger-for]="menu"><mat-icon>menu</mat-icon></button>
+        <button style="color: white;" mat-icon-button [mat-menu-trigger-for]="menu"><mat-icon>menu</mat-icon></button>
       </div>
-<div *ngIf="!topic" class="topics" fxLayoutGap="15px" fxLayoutAlign="center center">
-  <div class="earth topic-btn" (click)="topic='earth'" fxLayoutAlign="center center">
-    <img src="../../../assets/1.png" height="90%" alt="Earth">
-  </div>
-  <div class="mechanical topic-btn" (click)="topic='mech'" fxLayoutAlign="center center">
-    <img src="../../../assets/2.png" height="90%" alt="Mechanical">
-  </div>
-  <div class="health topic-btn" (click)="topic='health'" fxLayoutAlign="center center">
-    <img src="../../../assets/3.png" height="90%"  alt="Health">
-  </div>
-</div>
+      <div *ngIf="!topic" class="topics" fxLayoutGap="15px" fxLayoutAlign="center center">
+        <div class="earth topic-btn" (click)="topic='earth'" fxLayoutAlign="center center">
+          <img src="../../../assets/1.png" height="90%" alt="Earth">
+        </div>
+        <div class="mechanical topic-btn" (click)="topic='mech'" fxLayoutAlign="center center">
+          <img src="../../../assets/2.png" height="90%" alt="Mechanical">
+        </div>
+        <div class="health topic-btn" (click)="topic='health'" fxLayoutAlign="center center">
+          <img src="../../../assets/3.png" height="90%" alt="Health">
+        </div>
+      </div>
+      <div *ngIf="topic">
+        <ng-container *ngTemplateOutlet="getTemplate()"></ng-container>
+      </div>
     </div>
   </div>
 </div>
@@ -33,3 +37,13 @@
   </div>
 </mat-menu>
 <ng-template #spinner><i class="fa fa-spinner fa-spin"></i></ng-template>
+
+<ng-template #earth>
+  Earth
+</ng-template>
+<ng-template #mech>
+  Mechanical
+</ng-template>
+<ng-template #health>
+  Health
+</ng-template>
