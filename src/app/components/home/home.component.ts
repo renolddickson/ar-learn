@@ -1,6 +1,6 @@
-import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  topic:any;
+  topic!:any;
   userSettings: any;
   uid:any;
   isLoading=false;
@@ -16,6 +16,68 @@ export class HomeComponent {
   @ViewChild('earth') earth!:ElementRef;
   @ViewChild('mech') mech!:ElementRef;
   @ViewChild('health') health!:ElementRef;
+
+  questions = [
+    {
+      question: "How much of Earth's surface is covered by water?",
+      answers: [
+        { name: "A", value: "Approximately 50%" },
+        { name: "B", value: "Approximately 70%" },
+        { name: "C", value: "Approximately 90%" },
+        { name: "D", value: "Approximately 30%" }
+      ],
+      correctAnswer: "B"
+    },
+    {
+      question: "Which country has the largest land area on Earth?",
+      answers: [
+        { name: "A", value: "Russia" },
+        { name: "B", value: "Canada" },
+        { name: "C", value: "China" },
+        { name: "D", value: "United States" }
+      ],
+      correctAnswer: "A"
+    },
+    {
+      question: "In which position is Earth in terms of size among all the planets in the solar system?",
+      answers: [
+        { name: "A", value: "Second largest" },
+        { name: "B", value: "Third largest" },
+        { name: "C", value: "Fourth largest" },
+        { name: "D", value: "Fifth largest" }
+      ],
+      correctAnswer: "B"
+    },
+    {
+      question: "What percentage of Earth's atmosphere is made up of oxygen?",
+      answers: [
+        { name: "A", value: "Approximately 21%" },
+        { name: "B", value: "Approximately 50%" },
+        { name: "C", value: "Approximately 10%" },
+        { name: "D", value: "Approximately 5%" }
+      ],
+      correctAnswer: "A"
+    },
+    {
+      question: "Approximately how long does it take for Earth to complete one orbit around the Sun?",
+      answers: [
+        { name: "A", value: "365 days" },
+        { name: "B", value: "24 hours" },
+        { name: "C", value: "30 days" },
+        { name: "D", value: "1 year" }
+      ],
+      correctAnswer: "D"
+    }
+  ];
+  
+  quizForm!:FormGroup;
+  keyObj:any = {
+    question0: "B",
+    question1: "A",
+    question2: "B",
+    question3: "A",
+    question4: "D"
+  };
   constructor(private apiService: ApiService,) { }
   ngOnInit(): void {
     const currentUser = this.apiService.getToken();
@@ -25,6 +87,21 @@ export class HomeComponent {
         this.userSettings = res;
       })
     }
+    const group:any = {};
+    this.questions.forEach((question, index) => {
+      group[`question${index}`] = new FormControl('');
+    });
+    this.quizForm = new FormGroup(group);
+  }
+
+  onSubmit() {
+    let points = 0;
+    Object.keys(this.keyObj).forEach(key => {
+      if (this.quizForm.value[key] === this.keyObj[key]) {
+        points++;
+      }
+    });
+    console.log("Points:", points);
   }
   getTemplate(){
     return this[this.topic as keyof HomeComponent];

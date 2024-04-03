@@ -17,7 +17,7 @@
           <img src="../../../assets/3.png" height="90%" alt="Health">
         </div>
       </div>
-      <div *ngIf="topic">
+      <div *ngIf="topic" fxLayout="column">
         <ng-container *ngTemplateOutlet="getTemplate()"></ng-container>
       </div>
     </div>
@@ -39,11 +39,30 @@
 <ng-template #spinner><i class="fa fa-spinner fa-spin"></i></ng-template>
 
 <ng-template #earth>
-  Earth
+  <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" fxLayout="column">
+  <div *ngFor="let q of questions; let i = index" >
+    <h3>{{i+1+').  '+ q.question }}</h3>
+    <mat-radio-group [formControlName]="'question' + i">
+      <mat-radio-button *ngFor="let ans of q.answers" [value]="ans.name">
+        {{ ans.value }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="btn-container" style="margin-top: 20px;" fxFlex="100%" fxLayoutALign="flex-end center" fxLayoutGap="20px">
+    <button mat-raised-button (click)="topic=null">Back</button>
+    <button mat-raised-button color="primary">
+      <span *ngIf="!isLoading; else spinner" (click)="onSubmit()">Submit</span>
+    </button>
+  </div>
+</form>
 </ng-template>
 <ng-template #mech>
-  Mechanical
+  <div class="not-available" fxLayoutAlign="center center">
+    <h3>Questions not available</h3>
+  </div>
 </ng-template>
 <ng-template #health>
-  Health
+  <div class="not-available" fxLayoutAlign="center center">
+    <h3>Questions not available</h3>
+  </div>
 </ng-template>
