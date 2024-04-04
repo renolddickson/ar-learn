@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { FormControl, FormGroup } from '@angular/forms';
-
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -78,7 +78,7 @@ export class HomeComponent {
     question3: "A",
     question4: "D"
   };
-  constructor(private apiService: ApiService,) { }
+  constructor(private apiService: ApiService,public dialog: MatDialog) { }
   ngOnInit(): void {
     const currentUser = this.apiService.getToken();
     this.uid=this.apiService.getUid()
@@ -101,7 +101,7 @@ export class HomeComponent {
         points++;
       }
     });
-    console.log("Points:", points);
+    alert("you got "+points+" points")
   }
   getTemplate(){
     return this[this.topic as keyof HomeComponent];
