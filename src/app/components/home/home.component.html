@@ -46,12 +46,14 @@
       <mat-radio-button *ngFor="let ans of q.answers" [value]="ans.name">
         {{ ans.value }}
       </mat-radio-button>
+      <br>
+      <mat-error *ngIf="quizForm.get('question'+i)?.invalid" style="color: red;">*required</mat-error>
     </mat-radio-group>
   </div>
   <div class="btn-container" style="margin-top: 20px;" fxFlex="100%" fxLayoutALign="flex-end center" fxLayoutGap="20px">
     <button mat-raised-button (click)="topic=null">Back</button>
-    <button mat-raised-button color="primary">
-      <span *ngIf="!isLoading; else spinner" (click)="onSubmit()">Submit</span>
+    <button mat-raised-button color="primary" type="submit">
+      <span *ngIf="!isLoading; else spinner">Submit</span>
     </button>
   </div>
 </form>
@@ -65,4 +67,10 @@
   <div class="not-available" fxLayoutAlign="center center">
     <h3>Questions not available</h3>
   </div>
+</ng-template>
+
+<ng-template #dialog>
+  <mat-dialog-content class="mat-typography">
+    <h3>{{'You got '+points+' points'}}</h3><br>
+  </mat-dialog-content>
 </ng-template>

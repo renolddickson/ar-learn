@@ -26,6 +26,8 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatDialogModule} from '@angular/material/dialog';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +52,7 @@ import {MatRadioModule} from '@angular/material/radio';
     ImageCropperModule,
     BrowserAnimationsModule,
     MatRadioModule,
+    MatDialogModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),

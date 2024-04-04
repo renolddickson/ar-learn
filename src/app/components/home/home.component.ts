@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-home',
@@ -12,11 +12,11 @@ export class HomeComponent {
   userSettings: any;
   uid:any;
   isLoading=false;
-  points!:number;
+  points=0;
   @ViewChild('earth') earth!:ElementRef;
   @ViewChild('mech') mech!:ElementRef;
   @ViewChild('health') health!:ElementRef;
-
+  @ViewChild('dialog') dialogBox!: TemplateRef<any>;
   questions = [
     {
       question: "How much of Earth's surface is covered by water?",
@@ -89,26 +89,38 @@ export class HomeComponent {
     }
     const group:any = {};
     this.questions.forEach((question, index) => {
-      group[`question${index}`] = new FormControl('');
+      group[`question${index}`] = new FormControl('',Validators.required);
     });
     this.quizForm = new FormGroup(group);
   }
 
   onSubmit() {
-    let points = 0;
-    Object.keys(this.keyObj).forEach(key => {
-      if (this.quizForm.value[key] === this.keyObj[key]) {
-        points++;
-      }
-    });
-    alert("you got "+points+" points")
+    if(this.quizForm.valid){
+      this.points = 0;
+      Object.keys(this.keyObj).forEach(key => {
+        if (this.quizForm.value[key] === this.keyObj[key]) {
+          this.points++;
+        }
+      });
+      this.dialog
+      .open(this.dialogBox, {})
+      .afterClosed()
+      .subscribe((res) => {
+        // console.log(res);
+        this.saveStorename()
+      });
+    }
+    else{
+      this.quizForm.updateValueAndValidity()
+    }
   }
   getTemplate(){
     return this[this.topic as keyof HomeComponent];
   }
+  
   saveStorename() {
       this.isLoading=true;
-      this.userSettings.points = this.points
+      this.userSettings.points+= this.points
       this.apiService.updateDocument('userinfo', 'data', this.userSettings).then(() => {
         localStorage.setItem('userinfo', JSON.stringify(this.userSettings))
         this.isLoading=false
