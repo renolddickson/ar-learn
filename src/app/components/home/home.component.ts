@@ -8,14 +8,14 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  topic!:any;
+  topic!: any;
   userSettings: any;
-  uid:any;
-  isLoading=false;
-  points=0;
-  @ViewChild('earth') earth!:ElementRef;
-  @ViewChild('mech') mech!:ElementRef;
-  @ViewChild('health') health!:ElementRef;
+  uid: any;
+  isLoading = false;
+  points = 0;
+  @ViewChild('earth') earth!: ElementRef;
+  @ViewChild('mech') mech!: ElementRef;
+  @ViewChild('health') health!: ElementRef;
   @ViewChild('dialog') dialogBox!: TemplateRef<any>;
   questions = [
     {
@@ -69,64 +69,190 @@ export class HomeComponent {
       correctAnswer: "D"
     }
   ];
-  
-  quizForm!:FormGroup;
-  keyObj:any = {
-    question0: "B",
-    question1: "A",
-    question2: "B",
-    question3: "A",
-    question4: "D"
-  };
-  constructor(private apiService: ApiService,public dialog: MatDialog) { }
+  electricMotorQuestions = [
+    {
+      question: "What is the primary function of the stator in an electric motor?",
+      answers: [
+        { name: "A", value: "To provide mechanical support" },
+        { name: "B", value: "To generate a rotating magnetic field" },
+        { name: "C", value: "To convert electrical energy into mechanical energy" },
+        { name: "D", value: "To regulate the motor’s speed" }
+      ],
+      correctAnswer: "B"
+    },
+    {
+      question: "Which type of motor is commonly used in household appliances like refrigerators and air conditioners?",
+      answers: [
+        { name: "A", value: "Single-phase induction motor" },
+        { name: "B", value: "Synchronous motor" },
+        { name: "C", value: "Brushless DC motor" },
+        { name: "D", value: "Universal motor" }
+      ],
+      correctAnswer: "A"
+    },
+    {
+      question: "Which type of motor provides the highest starting torque?",
+      answers: [
+        { name: "A", value: "DC series motor" },
+        { name: "B", value: "DC shunt motor" },
+        { name: "C", value: "AC induction motor" },
+        { name: "D", value: "Brushless DC motor" }
+      ],
+      correctAnswer: "A"
+    },
+    {
+      question: "Which motor is suitable for applications requiring variable speed control?",
+      answers: [
+        { name: "A", value: "DC motor" },
+        { name: "B", value: "AC motor" },
+        { name: "C", value: "Stepper motor" },
+        { name: "D", value: "Synchronous motor" }
+      ],
+      correctAnswer: "A"
+    },
+    {
+      question: "Which type of motor is commonly used in electric vehicles?",
+      answers: [
+        { name: "A", value: "Permanent magnet motor" },
+        { name: "B", value: "Universal motor" },
+        { name: "C", value: "Synchronous motor" },
+        { name: "D", value: "Reluctance motor" }
+      ],
+      correctAnswer: "A"
+    }
+  ];
+  nutritionQuestions = [
+    {
+      question: "Which of the following food components give energy to our body?",
+      answers: [
+        { name: "A", value: "Proteins" },
+        { name: "B", value: "Vitamins" },
+        { name: "C", value: "Minerals" },
+        { name: "D", value: "Carbohydrates" }
+      ],
+      correctAnswer: "D"
+    },
+    {
+      question: "Which of the following mineral functions by building strong bones and teeth?",
+      answers: [
+        { name: "A", value: "Iodine" },
+        { name: "B", value: "Calcium" },
+        { name: "C", value: "Iron" },
+        { name: "D", value: "Sodium" }
+      ],
+      correctAnswer: "B"
+    },
+    {
+      question: "Which of the following food components does not provide any nutrients?",
+      answers: [
+        { name: "A", value: "Milk" },
+        { name: "B", value: "Water" },
+        { name: "C", value: "Fruit Juice" },
+        { name: "D", value: "Vegetable soup" }
+      ],
+      correctAnswer: "B"
+    },
+    {
+      question: "The most significant and essential mineral required for our body is ____.",
+      answers: [
+        { name: "A", value: "Iron" },
+        { name: "B", value: "Sodium" },
+        { name: "C", value: "Calcium" },
+        { name: "D", value: "All of the above" }
+      ],
+      correctAnswer: "D"
+    },
+    {
+      question: "Which of the following food items is the best source of plant proteins?",
+      answers: [
+        { name: "A", value: "Milk" },
+        { name: "B", value: "Egg" },
+        { name: "C", value: "Legumes" },
+        { name: "D", value: "Cheese" }
+      ],
+      correctAnswer: "C"
+    }
+  ];
+
+  quizForm!: FormGroup;
+  keyObj: any;
+  constructor(private apiService: ApiService, public dialog: MatDialog) { }
   ngOnInit(): void {
     const currentUser = this.apiService.getToken();
-    this.uid=this.apiService.getUid()
+    this.uid = this.apiService.getUid()
     if (currentUser) {
       this.apiService.getUserInfo().subscribe((res) => {
         this.userSettings = res;
       })
     }
-    const group:any = {};
+    const group: any = {};
     this.questions.forEach((question, index) => {
-      group[`question${index}`] = new FormControl('',Validators.required);
+      group[`question${index}`] = new FormControl('', Validators.required);
     });
     this.quizForm = new FormGroup(group);
   }
-
+  setAnswer(cat: any) {
+    if (cat == 'earth') {
+      this.keyObj = {
+        question0: "B",
+        question1: "A",
+        question2: "B",
+        question3: "A",
+        question4: "D"
+      };
+    } else if (cat == 'mech') {
+      this.keyObj = {
+        question0: "B",
+        question1: "A",
+        question2: "A",
+        question3: "A",
+        question4: "A"
+      }
+    } else if (cat == 'health') {
+      this.keyObj = {
+        question0: "D",
+        question1: "B",
+        question2: "B",
+        question3: "D",
+        question4: "C"
+      }
+    }
+  }
   onSubmit() {
-    if(this.quizForm.valid){
+    if (this.quizForm.valid) {
       this.points = 0;
       Object.keys(this.keyObj).forEach(key => {
+        console.log(this.quizForm.value[key],this.keyObj[key]);
+        
         if (this.quizForm.value[key] === this.keyObj[key]) {
           this.points++;
         }
       });
       this.dialog
-      .open(this.dialogBox, {})
-      .afterClosed()
-      .subscribe((res) => {
-        // console.log(res);
-        this.saveStorename()
-      });
+        .open(this.dialogBox, {})
+        .afterClosed()
+        .subscribe((res) => {
+          // console.log(res);
+          this.saveStorename()
+        });
     }
-    else{
+    else {
       this.quizForm.updateValueAndValidity()
     }
   }
-  getTemplate(){
+  getTemplate() {
     return this[this.topic as keyof HomeComponent];
   }
-  
+
   saveStorename() {
-      this.isLoading=true;
-      this.userSettings.points+= this.points
-      this.apiService.updateDocument('userinfo', 'data', this.userSettings).then(() => {
-        localStorage.setItem('userinfo', JSON.stringify(this.userSettings))
-        this.isLoading=false
-      }).catch((err: any) => {
-        alert("Error occured");
-        this.isLoading=false
-      })
-    }
+    this.isLoading = true;
+    this.userSettings.points += this.points
+    this.apiService.updateDocument('userinfo', 'data', this.userSettings).then(() => {
+      localStorage.setItem('userinfo', JSON.stringify(this.userSettings))
+      this.isLoading = false
+    }).catch((err: any) => {
+      alert("Error occured");
+      this.isLoading = false
+    })
+  }
 }
