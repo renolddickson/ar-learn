@@ -13,6 +13,7 @@ export class HomeComponent {
   uid: any;
   isLoading = false;
   points = 0;
+  attempt=0;
   @ViewChild('earth') earth!: ElementRef;
   @ViewChild('mech') mech!: ElementRef;
   @ViewChild('health') health!: ElementRef;
@@ -220,6 +221,7 @@ export class HomeComponent {
   }
   onSubmit() {
     if (this.quizForm.valid) {
+      this.attempt=1
       this.points = 0;
       Object.keys(this.keyObj).forEach(key => {
         console.log(this.quizForm.value[key],this.keyObj[key]);
@@ -246,7 +248,10 @@ export class HomeComponent {
 
   saveStorename() {
     this.isLoading = true;
-    this.userSettings.points += this.points
+    if(!this.userSettings.attempt)
+      this.userSettings.attempt=0
+    this.userSettings.points += this.points;
+    this.userSettings.attempt += this.attempt;
     this.apiService.updateDocument('userinfo', 'data', this.userSettings).then(() => {
       localStorage.setItem('userinfo', JSON.stringify(this.userSettings))
       this.isLoading = false

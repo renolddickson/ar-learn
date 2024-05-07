@@ -36,7 +36,8 @@ export class ApiService {
             lcusername: '',
             picture: res.additionalUserInfo.profile.picture ? res.additionalUserInfo.profile.picture : '',
             createdAt: new Date(),
-            points:0
+            points:0,
+            attempt: 0
           }
           this.postDocument(res.user.uid, 'userinfo', 'data', userData).then(() => {
             localStorage.setItem(

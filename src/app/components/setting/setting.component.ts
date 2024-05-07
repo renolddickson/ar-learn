@@ -24,6 +24,7 @@ this.settingForm=new FormGroup({
   email : new FormControl(null),
   id : new FormControl(null),
   points : new FormControl(0),
+  attempt: new FormControl(0),
   createdAt : new FormControl(null),
   uid : new FormControl(null)
 })
